@@ -1,349 +1,291 @@
-# Laboratorio: Rediseño de una Aplicación para la Nube
+# Laboratorio: Rediseño de una Aplicación Monolítica para la Nube en AWS
 
 ## Introducción
 
-Este laboratorio te guiará a través del proceso de rediseñar una aplicación tradicional para optimizarla y desplegarla en un entorno basado en la nube, utilizando los servicios de AWS. Aprenderás a identificar componentes que se pueden migrar y optimizar, cómo aprovechar los servicios administrados de AWS, y cómo mejorar la escalabilidad, la disponibilidad y la eficiencia de costos.
-
-## Objetivos
-
-- Migrar y rediseñar una aplicación monolítica tradicional hacia una arquitectura de microservicios en la nube.
-- Implementar servicios como AWS Lambda, Amazon RDS, y Amazon S3 para optimizar la aplicación.
-- Configurar un entorno escalable y disponible utilizando Auto Scaling, Elastic Load Balancing (ELB) y otros servicios de AWS.
-- Realizar pruebas de rendimiento y ajustar el entorno para maximizar la eficiencia y reducir costos.
-
-## Requisitos Previos
-
-- Cuenta de AWS con permisos suficientes para crear y gestionar recursos.
-- Familiaridad con los servicios de AWS como EC2, RDS, S3, y Lambda.
-- Conocimientos básicos de arquitectura de aplicaciones y microservicios.
-
-## Iteración 1: Evaluación de la Aplicación Actual
-
-**Objetivo:** Identificar los componentes actuales de la aplicación que se pueden migrar a la nube y optimizar.
-
-1. **Revisión del Código y Arquitectura:**
-   - Identifica los componentes principales de la aplicación (base de datos, lógica de negocios, interfaz de usuario).
-   - Determina qué partes del código pueden beneficiarse de una migración a microservicios.
-
-2. **Evaluación de la Infraestructura Actual:**
-   - Revisa los recursos de infraestructura actuales utilizados por la aplicación (servidores, almacenamiento, bases de datos).
-   - Identifica áreas donde la infraestructura de AWS puede mejorar el rendimiento o reducir costos (por ejemplo, cambiar de un servidor físico a instancias EC2).
-
-3. **Creación del Diagrama de Arquitectura Actual:**
-   - Dibuja un diagrama de la arquitectura actual para visualizar mejor cómo está estructurada la aplicación antes de rediseñarla para la nube.
-
-## Iteración 2: Descomposición de la Aplicación en Microservicios
-
-**Objetivo:** Rediseñar la aplicación monolítica dividiéndola en componentes de microservicios.
-
-1. **Identificación de Microservicios:**
-   - Desglosa las funciones principales de la aplicación en servicios más pequeños y autónomos (por ejemplo, servicios para autenticación, procesamiento de pagos, etc.).
-
-2. **Diseño de la Comunicación entre Microservicios:**
-   - Decide cómo se comunicarán los microservicios entre sí (por ejemplo, mediante APIs RESTful, colas de mensajes como SQS, o eventos).
-
-3. **Documentación del Diseño de Microservicios:**
-   - Crea un documento de diseño que describa cada microservicio, su propósito y las tecnologías que se utilizarán para implementarlo en AWS.
-
-## Iteración 3: Migración de la Base de Datos a Amazon RDS
-
-**Objetivo:** Migrar la base de datos de la aplicación a un servicio administrado como Amazon RDS para mejorar la disponibilidad y la gestión.
-
-1. **Seleccionar el Tipo de Base de Datos en RDS:**
-   - Elige el motor de base de datos adecuado (MySQL, PostgreSQL, etc.) según las necesidades de la aplicación.
-   - Configura la base de datos con Multi-AZ para alta disponibilidad.
-
-2. **Migración de Datos:**
-   - Utiliza AWS Database Migration Service (DMS) o herramientas nativas de exportación/importación para migrar los datos de la base de datos actual a RDS.
-
-3. **Prueba de Conexión y Funcionamiento:**
-   - Actualiza la configuración de la aplicación para que apunte a la nueva base de datos en RDS.
-   - Realiza pruebas para asegurar que la aplicación puede interactuar correctamente con la base de datos migrada.
-
-## Iteración 4: Implementación de AWS Lambda para Procesamiento sin Servidor
-
-**Objetivo:** Migrar las funciones de procesamiento que no requieren un servidor dedicado a AWS Lambda.
-
-1. **Identificación de Funciones Candidatas para Lambda:**
-   - Selecciona partes del código que pueden ejecutarse de manera asincrónica o en respuesta a eventos, como el procesamiento de imágenes o tareas de backend.
-
-2. **Desarrollo de Funciones Lambda:**
-   - Crea funciones Lambda para las tareas seleccionadas, utilizando lenguajes como Python, Node.js o Java.
-
-3. **Configuración de Triggers:**
-   - Configura eventos de AWS (como la carga de un archivo en S3) para desencadenar las funciones Lambda.
-
-4. **Prueba y Validación:**
-   - Prueba las funciones Lambda para asegurar que se ejecutan correctamente en respuesta a los eventos configurados.
-
-## Iteración 5: Optimización del Almacenamiento con Amazon S3
-
-**Objetivo:** Utilizar Amazon S3 para almacenar archivos estáticos y otros recursos de la aplicación.
-
-1. **Migración de Archivos Estáticos a S3:**
-   - Identifica todos los archivos estáticos (imágenes, documentos, videos) y migra estos archivos a S3.
-   - Configura políticas de acceso y encriptación para los datos en S3.
-
-2. **Configuración de Amazon CloudFront:**
-   - Implementa Amazon CloudFront para distribuir el contenido almacenado en S3 de manera rápida y segura a nivel global.
-
-3. **Optimización de Costos con Políticas de Ciclo de Vida:**
-   - Configura políticas de ciclo de vida en S3 para mover automáticamente los datos a clases de almacenamiento más económicas, como S3 Glacier, según su uso.
-
-## Iteración 6: Implementación de Elastic Load Balancer (ELB) y Auto Scaling
-
-**Objetivo:** Asegurar que la aplicación es escalable y siempre disponible mediante la implementación de ELB y Auto Scaling.
-
-1. **Configuración de un Application Load Balancer:**
-   - Configura un ALB en la consola de EC2, asegurándote de que distribuya el tráfico entre varias instancias EC2 en diferentes zonas de disponibilidad.
-
-2. **Configuración de Auto Scaling:**
-   - Configura un Auto Scaling Group que ajuste el número de instancias EC2 según la demanda de tráfico.
-   - Define políticas de escalado basadas en métricas de CloudWatch, como el uso de CPU.
-
-3. **Pruebas de Escalabilidad:**
-   - Realiza pruebas de carga para verificar que el Auto Scaling y el ELB funcionen correctamente y que la aplicación pueda manejar aumentos de tráfico sin problemas.
-
-## Iteración 7: Seguridad y Gestión de Acceso
-
-**Objetivo:** Implementar controles de seguridad para proteger los datos y el acceso a la aplicación.
-
-1. **Configuración de IAM Roles y Políticas:**
-   - Crea roles y políticas de IAM para asegurar que los servicios solo tienen los permisos mínimos necesarios para funcionar.
-   - Configura el acceso a S3, RDS y Lambda utilizando roles específicos.
-
-2. **Configuración de Seguridad en la Red:**
-   - Configura grupos de seguridad para las instancias EC2 y el ALB, permitiendo solo el tráfico necesario (por ejemplo, tráfico HTTP y HTTPS).
-   - Implementa VPC Peering o VPN para comunicar servicios de manera segura entre diferentes VPCs si es necesario.
-
-3. **Monitoreo de Seguridad con AWS Config y CloudTrail:**
-   - Activa AWS Config para monitorear cambios en la configuración de los recursos.
-   - Habilita AWS CloudTrail para registrar todas las acciones realizadas en la cuenta de AWS, lo que permite auditar accesos y cambios.
-
-## Iteración 8: Pruebas de Desempeño y Optimización
-
-**Objetivo:** Evaluar el rendimiento de la aplicación rediseñada y realizar ajustes para mejorar su eficiencia.
-
-1. **Ejecutar Pruebas de Carga:**
-   - Utiliza herramientas como AWS Load Testing o Apache JMeter para simular tráfico y evaluar el rendimiento de la aplicación.
-
-2. **Monitoreo y Ajuste de Recursos:**
-   - Monitorea las métricas de rendimiento a través de AWS CloudWatch.
-   - Ajusta los recursos, como el tamaño de las instancias EC2 o las configuraciones de Auto Scaling, para mejorar el rendimiento o reducir costos.
-
-## Iteración 9: Documentación y Automatización del Despliegue
-
-**Objetivo:** Documentar el proceso de rediseño y crear scripts de automatización para futuras implementaciones.
-
-1. **Documentar la Nueva Arquitectura:**
-   - Crea un documento detallado que describa la nueva arquitectura, incluyendo diagramas y flujos de datos.
-
-2. **Implementación de AWS CloudFormation o Terraform:**
-   - Crea plantillas de CloudFormation o scripts de Terraform para automatizar la creación y configuración de los recursos AWS.
-   - Asegúrate de que todas las configuraciones de la infraestructura están versionadas y pueden ser replicadas fácilmente.
-
-3. **Pruebas de Despliegue Automatizado:**
-   - Realiza pruebas para asegurarte de que el despliegue automatizado funciona sin problemas, desde la creación de la infraestructura hasta la implementación de la aplicación.
-
-## Iteración 10: Limpieza del Entorno y Revisión del Laboratorio
-
-**Objetivo:** Finalizar el laboratorio limpiando los recursos creados y revisando los aprendizajes obtenidos.
-
-1. **Eliminación de Recursos No Necesarios:**
-   - Elimina los recursos que no sean necesarios para la operación continua de la aplicación, como instancias de prueba, buckets S3 temporales, etc.
-
-2. **Re
-
-# Laboratorio: Rediseño de una Aplicación para la Nube
-
-## Introducción
-
-En este laboratorio, rediseñaremos una aplicación monolítica tradicional para optimizarla en un entorno basado en la nube, utilizando los servicios de AWS. Aprenderás a migrar y mejorar una aplicación existente mediante la descomposición en microservicios, el uso de servicios administrados como Amazon RDS, S3, y Lambda, y la implementación de estrategias de escalabilidad y alta disponibilidad.
+Este laboratorio te guiará a través del proceso de rediseñar una aplicación monolítica sencilla, "Gestión de Tareas", hacia una arquitectura de microservicios utilizando servicios de AWS. El objetivo es mejorar la escalabilidad, disponibilidad y eficiencia en costos mediante la implementación de servicios administrados como Amazon RDS, S3 y Lambda.
 
 ## Objetivos
 
 - Migrar y rediseñar una aplicación monolítica hacia una arquitectura de microservicios.
 - Implementar servicios administrados de AWS para mejorar la escalabilidad y disponibilidad.
 - Optimizar la aplicación para reducir costos y mejorar el rendimiento.
-- Configurar la infraestructura utilizando herramientas de automatización.
+- Configurar la infraestructura utilizando herramientas de automatización como AWS CloudFormation.
 
 ## Requisitos Previos
 
-- **Cuenta de AWS** con permisos administrativos.
-- **Conocimientos básicos de AWS** y arquitectura de aplicaciones.
+- Cuenta de AWS con permisos administrativos.
+- Conocimientos básicos de AWS, Node.js y SQL.
+- Familiaridad con servicios como EC2, RDS y Lambda.
 
-## Iteración 1: Análisis de la Aplicación Actual
+## Aplicación Original: "Gestión de Tareas"
 
-### Objetivo:
-Identificar los componentes de la aplicación que se pueden migrar y optimizar en la nube.
+### Descripción
 
-### Pasos:
+La aplicación "Gestión de Tareas" permite a los usuarios crear, leer, actualizar y eliminar tareas. Está construida como un monolito, lo que significa que todo el código, la lógica de negocios, la interfaz de usuario y la base de datos están empaquetados en una única aplicación.
 
-1. **Revisión del Código:**
-   - Examina la arquitectura actual para identificar los componentes principales (base de datos, lógica de negocio, UI).
-   - Identifica dependencias que podrían dificultar la migración a la nube.
+### Código Fuente de la Aplicación Original
 
-2. **Evaluación de la Infraestructura:**
-   - Analiza la infraestructura actual, como servidores físicos o máquinas virtuales, y compáralos con los servicios equivalentes en AWS.
-   - Realiza un inventario de recursos y carga de trabajo actual.
+#### Estructura del Proyecto
 
-3. **Creación del Diagrama de Arquitectura:**
-   - Dibuja un diagrama de la arquitectura actual para tener una visión clara de la estructura de la aplicación.
+```plaintext
+gestion-tareas/
+├── app.js
+├── package.json
+├── views/
+│   ├── index.html
+│   └── task.html
+└── db/
+    └── tasks.sql
+```
 
-## Iteración 2: Descomposición en Microservicios
+#### Código de `app.js`
 
-### Objetivo:
-Dividir la aplicación monolítica en microservicios independientes.
+```javascript
+const express = require('express');
+const mysql = require('mysql');
+const app = express();
+const port = 3000;
 
-### Pasos:
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'task_manager'
+});
 
-1. **Identificación de Microservicios:**
-   - Desglosa las funciones principales de la aplicación en servicios autónomos (autenticación, procesamiento de pagos, etc.).
-   - Determina los límites de cada microservicio.
+db.connect(err => {
+    if (err) {
+        throw err;
+    }
+    console.log('Conectado a MySQL');
+});
 
-2. **Diseño de Comunicación:**
-   - Diseña cómo los microservicios se comunicarán entre sí, utilizando APIs RESTful o colas de mensajes (por ejemplo, SQS).
-   - Establece protocolos de seguridad y autenticación entre servicios.
+app.use(express.json());
+app.use(express.static('views'));
 
-3. **Documentación:**
-   - Documenta cada microservicio, especificando sus responsabilidades, interfaces y tecnologías utilizadas.
+app.get('/tasks', (req, res) => {
+    let sql = 'SELECT * FROM tasks';
+    db.query(sql, (err, results) => {
+        if (err) throw err;
+        res.json(results);
+    });
+});
 
-## Iteración 3: Migración de la Base de Datos a Amazon RDS
+app.post('/tasks', (req, res) => {
+    let task = { title: req.body.title, description: req.body.description };
+    let sql = 'INSERT INTO tasks SET ?';
+    db.query(sql, task, (err, result) => {
+        if (err) throw err;
+        res.send('Tarea añadida');
+    });
+});
 
-### Objetivo:
-Migrar la base de datos a Amazon RDS para mejorar la disponibilidad y reducir la gestión manual.
+app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
+});
+```
 
-### Pasos:
+#### Archivo SQL (`tasks.sql`)
 
-1. **Selección del Motor de Base de Datos:**
-   - Elige el motor de base de datos adecuado en Amazon RDS (MySQL, PostgreSQL, etc.).
-   - Configura la base de datos con Multi-AZ para alta disponibilidad.
+```sql
+CREATE DATABASE IF NOT EXISTS task_manager;
+USE task_manager;
 
-2. **Migración de Datos:**
-   - Utiliza AWS Database Migration Service (DMS) para migrar los datos existentes a RDS.
-   - Verifica la integridad de los datos post-migración.
+CREATE TABLE IF NOT EXISTS tasks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT
+);
+```
 
-3. **Prueba de Conexión:**
-   - Actualiza la configuración de la aplicación para que apunte a la nueva base de datos en RDS.
-   - Realiza pruebas para asegurar que la aplicación interactúa correctamente con RDS.
+#### Vistas (`index.html` y `task.html`)
 
-## Iteración 4: Implementación de AWS Lambda para Procesamiento sin Servidor
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Tareas</title>
+</head>
+<body>
+    <h1>Mis Tareas</h1>
+    <ul id="task-list"></ul>
+    <a href="task.html">Añadir Nueva Tarea</a>
+    <script>
+        fetch('/tasks')
+            .then(response => response.json())
+            .then(tasks => {
+                const taskList = document.getElementById('task-list');
+                tasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.textContent = task.title;
+                    taskList.appendChild(li);
+                });
+            });
+    </script>
+</body>
+</html>
+```
 
-### Objetivo:
-Migrar funciones de la aplicación a AWS Lambda para reducir la necesidad de servidores dedicados.
+```html
+<!-- task.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Tarea</title>
+</head>
+<body>
+    <h1>Añadir Nueva Tarea</h1>
+    <form id="task-form">
+        <input type="text" name="title" placeholder="Título" required>
+        <textarea name="description" placeholder="Descripción"></textarea>
+        <button type="submit">Guardar</button>
+    </form>
+    <script>
+        document.getElementById('task-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const data = new FormData(event.target);
+            const task = {
+                title: data.get('title'),
+                description: data.get('description')
+            };
+            fetch('/tasks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(task)
+            }).then(response => {
+                if (response.ok) {
+                    alert('Tarea añadida');
+                    window.location.href = '/';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+```
 
-### Pasos:
+## Iteraciones del Laboratorio
 
-1. **Identificación de Funciones para Lambda:**
-   - Selecciona tareas que pueden ejecutarse asincrónicamente, como el procesamiento de imágenes o tareas de backend.
-  
-2. **Desarrollo de Funciones Lambda:**
-   - Implementa las funciones utilizando lenguajes compatibles con Lambda, como Python o Node.js.
-   - Prueba cada función en un entorno controlado.
+### Iteración 1: Configuración del Entorno de Desarrollo
 
-3. **Configuración de Triggers:**
-   - Configura eventos en S3 o API Gateway para desencadenar las funciones Lambda.
-   - Asegúrate de que los eventos y las funciones están correctamente conectados.
+**Objetivo:** Configurar el entorno de desarrollo local e implementar la aplicación original.
 
-## Iteración 5: Optimización del Almacenamiento con Amazon S3
+1. **Instalación de Node.js y MySQL:**
+   - Instala Node.js en tu máquina local.
+   - Instala MySQL y crea una base de datos llamada `task_manager`.
 
-### Objetivo:
-Utilizar Amazon S3 para almacenar archivos estáticos y mejorar la eficiencia del almacenamiento.
+2. **Clonación del Repositorio y Ejecución de la Aplicación:**
+   - Clona el repositorio que contiene el código de la aplicación original.
+   - Ejecuta los comandos `npm install` y `node app.js` para iniciar la aplicación.
 
-### Pasos:
+3. **Pruebas Locales:**
+   - Accede a `http://localhost:3000` para interactuar con la aplicación y verificar que funciona correctamente.
 
-1. **Migración de Archivos a S3:**
-   - Sube archivos estáticos de la aplicación, como imágenes y videos, a S3.
-   - Configura permisos y políticas de acceso para asegurar los datos.
+### Iteración 2: Migración a una Arquitectura de Microservicios
 
-2. **Implementación de Amazon CloudFront:**
-   - Configura CloudFront para distribuir contenido globalmente, reduciendo la latencia.
-   - Configura políticas de seguridad y almacenamiento en caché.
+**Objetivo:** Descomponer la aplicación monolítica en microservicios independientes.
 
-3. **Políticas de Ciclo de Vida:**
-   - Implementa políticas de ciclo de vida para mover datos menos utilizados a S3 Glacier y reducir costos.
+1. **División de la Aplicación en Microservicios:**
+   - Separa el código en tres microservicios: `Servicio de Usuarios`, `Servicio de Tareas` y `Servicio de Notificaciones`.
 
-## Iteración 6: Implementación de Elastic Load Balancer (ELB) y Auto Scaling
+2. **Configuración de API Gateway:**
+   - Configura AWS API Gateway para gestionar las solicitudes a cada microservicio.
 
-### Objetivo:
-Asegurar que la aplicación sea escalable y altamente disponible.
+3. **Implementación de Funciones Lambda:**
+   - Implementa `AWS Lambda` para gestionar tareas como las notificaciones, reduciendo la dependencia de servidores dedicados.
 
-### Pasos:
+### Iteración 3: Despliegue en AWS
 
-1. **Configuración de un Application Load Balancer (ALB):**
-   - Configura un ALB para distribuir el tráfico entre varias instancias EC2 en diferentes zonas de disponibilidad.
+**Objetivo:** Desplegar los microservicios en AWS utilizando instancias EC2 y otros servicios.
 
-2. **Auto Scaling Group:**
-   - Configura un Auto Scaling Group para ajustar dinámicamente el número de instancias EC2 basadas en la carga.
-   - Define las políticas de escalado utilizando CloudWatch.
+1. **Configuración de Amazon RDS:**
+   - Crea una instancia de Amazon RDS y migra la base de datos MySQL a esta instancia.
 
-3. **Pruebas:**
-   - Realiza pruebas de carga para verificar que la aplicación se escala correctamente.
+2. **Despliegue de Microservicios en EC2 o Fargate:**
+   - Despliega los microservicios en instancias EC2 o contenedores en Amazon Fargate.
 
-## Iteración 7: Seguridad y Gestión de Acceso
+3. **Configuración de Elastic Load Balancer:**
+   - Configura un ELB para distribuir el tráfico entre los microservicios desplegados.
 
-### Objetivo:
-Implementar controles de seguridad robustos para proteger la aplicación.
+### Iteración 4: Escalabilidad y Optimización
 
-### Pasos:
+**Objetivo:** Asegurar que la aplicación sea escalable y optimizar el rendimiento.
 
-1. **Configuración de IAM Roles:**
-   - Define roles y políticas de IAM que limitan el acceso a los servicios de AWS según el principio de menor privilegio.
+1. **Implementación de Auto Scaling:**
+   - Configura Auto Scaling para que los microservicios escalen según la demanda.
 
-2. **Seguridad de Red:**
-   - Configura grupos de seguridad para controlar el tráfico entrante y saliente.
-   - Implementa redes privadas virtuales (VPN) si es necesario para la comunicación segura entre servicios.
+2. **Optimización del Almacenamiento con S3:**
+   - Migra el almacenamiento de archivos estáticos a Amazon S3 y configura CloudFront para distribución global.
 
-3. **Monitoreo con AWS Config y CloudTrail:**
-   - Habilita AWS Config y CloudTrail para monitorear y auditar configuraciones y accesos.
+3. **Monitoreo y Ajuste:**
+   - Usa CloudWatch para monitorear el rendimiento y ajustar los recursos según sea necesario.
 
-## Iteración 8: Pruebas de Desempeño y Optimización
+### Iteración 5: Seguridad y Gestión de Acceso
 
-### Objetivo:
-Evaluar y optimizar el rendimiento de la aplicación rediseñada.
+**Objetivo:** Implementar controles de seguridad para proteger los datos y el acceso a la aplicación.
 
-### Pasos:
+1. **Configuración de IAM Roles y Políticas:**
+   - Configura roles de IAM para asegurar que cada microservicio tenga acceso mínimo necesario a los recursos.
+
+2. **Seguridad en la Red:**
+   - Implementa grupos de seguridad y VPC para controlar el acceso a los microservicios.
+
+### Iteración 6: Automatización con CloudFormation
+
+**Objetivo:** Automatizar la configuración y despliegue de la infraestructura en AWS.
+
+1. **Creación de Plantillas de CloudFormation:**
+   - Automatiza la infraestructura creando plantillas de AWS CloudFormation.
+
+2. **Despliegue Automatizado:**
+   - Despliega toda la arquitectura de manera automatizada utilizando las plantillas creadas.
+
+### Iteración 7: Pruebas de Carga y Optimización Continua
+
+**Objetivo:** Evaluar el rendimiento de la aplicación bajo carga y optimizarla continuamente.
 
 1. **Ejecutar Pruebas de Carga:**
-   - Simula tráfico utilizando herramientas como Apache JMeter para evaluar el rendimiento bajo diferentes cargas.
+   - Simula tráfico para evaluar el rendimiento de la aplicación bajo carga.
 
-2. **Monitoreo y Ajustes:**
-   - Monitorea el rendimiento en tiempo real con CloudWatch y realiza ajustes según sea necesario.
+2. **Optimización de Costos:**
+   - Revisa el uso de recursos y ajusta configuraciones para optimizar costos.
 
-3. **Optimización Continua:**
-   - Ajusta el tamaño de las instancias EC2, parámetros de Auto Scaling, y configuraciones de red para optimizar el rendimiento y reducir costos.
+### Iteración 8: Documentación y Mejores Prácticas
 
-## Iteración 9: Documentación y Automatización
+**Objetivo:** Documentar todo el proceso de rediseño y aplicar mejores prácticas para asegurar la sostenibilidad y escalabilidad de la aplicación.
 
-### Objetivo:
-Documentar todo el proceso y automatizar la infraestructura.
+1. **Documentación Completa:**
+   - **Arquitectura:** Detalla la arquitectura final, describiendo cada microservicio y cómo interactúan entre sí. Incluye diagramas que muestren la infraestructura en AWS.
+   - **Despliegue:** Documenta los pasos necesarios para desplegar la aplicación, incluyendo las configuraciones de Auto Scaling, Elastic Load Balancer, y otras configuraciones de infraestructura.
+   - **Código:** Explica el código de cada microservicio, incluyendo comentarios en el código y guías de estilo que se deben seguir.
 
-### Pasos:
+2. **Prácticas de Seguridad:**
+   - **Control de Acceso:** Revisa y documenta las políticas de IAM, asegurando que cada servicio solo tenga los permisos necesarios.
+   - **Cifrado de Datos:** Asegura que todos los datos almacenados en S3 y RDS estén cifrados. Documenta cómo se implementó el cifrado y qué claves se utilizan.
+   - **Monitoreo de Seguridad:** Configura y documenta alertas en AWS CloudWatch para detectar accesos no autorizados o actividades sospechosas.
 
-1. **Documentación:**
-   - Crea documentación detallada de la arquitectura, configuraciones y procedimientos de despliegue.
+3. **Prácticas de Escalabilidad:**
+   - **Auto Scaling:** Documenta las políticas de Auto Scaling configuradas, explicando cuándo y cómo se escalan los microservicios.
+   - **Optimización de Costos:** Revisa las métricas de uso de recursos y ajusta las configuraciones para minimizar costos sin comprometer el rendimiento. Documenta estas optimizaciones para futuras referencias.
 
-2. **Automatización con CloudFormation:**
-   - Utiliza AWS CloudFormation para crear plantillas que automaticen la creación de la infraestructura.
-   - Verifica que el proceso automatizado funcione correctamente.
+4. **Pruebas y Mantenimiento:**
+   - **Pruebas de Integración Continua:** Configura un pipeline de integración continua que incluya pruebas automatizadas de cada microservicio. Documenta cómo se configuró este pipeline y cómo se pueden añadir nuevas pruebas.
+   - **Mantenimiento Regular:** Establece un plan de mantenimiento regular para revisar las métricas de rendimiento, ajustar configuraciones, y aplicar parches de seguridad.
 
-3. **Pruebas de Despliegue:**
-   - Realiza pruebas para asegurarte de que la automatización implementa todo correctamente desde cero.
+5. **Mejores Prácticas:**
+   - **Código Limpio:** Asegúrate de que todo el código siga las mejores prácticas de desarrollo, como el principio de responsabilidad única, la reutilización de código y la separación de preocupaciones. Documenta estas prácticas en un archivo de guía de estilo de código.
+   - **Gestión de Versiones:** Implementa un sistema de control de versiones robusto y documenta cómo se debe manejar el ciclo de vida de las versiones de cada microservicio.
+   - **Backup y Recuperación:** Establece un plan de recuperación ante desastres que incluya copias de seguridad regulares de los datos y los sistemas. Documenta cómo se pueden restaurar los servicios en caso de fallo.
 
-## Iteración 10: Limpieza del Entorno y Revisión
+6. **Refinamiento Continuo:**
+   - **Feedback Loop:** Establece mecanismos para recopilar feedback de los usuarios y mejorar continuamente la aplicación. Documenta cómo se debe gestionar el feedback y las actualizaciones del producto.
+   - **Optimización Continua:** Realiza revisiones periódicas del rendimiento de la aplicación y ajusta las configuraciones de AWS para optimizar aún más los costos y la eficiencia.
 
-### Objetivo:
-Finalizar el laboratorio limpiando los recursos utilizados y revisando los conceptos aprendidos.
-
-### Pasos:
-
-1. **Eliminación de Recursos:**
-   - Elimina todos los recursos innecesarios creados durante el laboratorio (EC2, RDS, S3, etc.).
-
-2. **Revisión:**
-   - Revisa los conceptos clave, las mejoras realizadas y cómo impactan en el rendimiento y los costos.
-   - Reflexiona sobre posibles mejoras adicionales o futuras implementaciones.
-
----
-
-Este laboratorio te ha guiado a través del proceso completo de rediseño y optimización de una aplicación para la nube, asegurando que esté preparada para funcionar eficientemente en un entorno escalable y rentable en AWS.
+7. **Publicación y Entrega:**
+   - **Publicación:** Documenta el proceso de publicación de nuevas versiones de los microservicios, incluyendo la configuración de despliegue continuo y pruebas en ambientes de staging antes de la producción.
+   - **Entrega:** Asegura que los procesos de entrega de código y actualizaciones estén alineados con las mejores prácticas de DevOps, incluyendo automatización y monitoreo post-despliegue.
