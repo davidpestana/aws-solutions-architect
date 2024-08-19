@@ -1,0 +1,17 @@
+services:
+  aws:
+    build: 
+      context: ./
+    restart: always
+    volumes:
+      - ./:/workspace
+      - ~/.ssh:/workspace/.ssh
+    env_file:
+      - .env
+  aws-nuke:
+    image: rebuy/aws-nuke:v2.25.0
+    volumes:
+      - ./config:/config
+    env_file:
+      - .env
+    entrypoint: ["sh", "-c", "aws-nuke -c /config/nuke-config.yml --force --access-key-id $AWS_ACCESS_KEY_ID --secret-access-key $AWS_SECRET_ACCESS_KEY --no-dry-run"]
