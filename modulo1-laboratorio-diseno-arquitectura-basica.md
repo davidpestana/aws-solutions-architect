@@ -147,6 +147,8 @@ Este laboratorio te guiará en el diseño y despliegue de una arquitectura bási
      git clone <tu-repositorio>
      cd <nombre-del-repositorio>
      ```
+   > si no tienes un repo de ejemplo puedes crear uno siguiendo esta estructura
+   (proyecto python)[proyecto-python.md]
 
 2. **Instalar dependencias:**
    - Instala las dependencias necesarias (por ejemplo, si es una aplicación Python):
